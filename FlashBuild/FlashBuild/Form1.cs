@@ -52,6 +52,29 @@ namespace FlashBuild
             {
                 int lastaddr = 0;
                 Random rand = new Random();
+                switch (buildmode)
+                {
+                    case 1:
+                        int len = objList.Count * 6 + 3;
+                        fs.WriteByte((byte)(len >> 16));
+                        fs.WriteByte((byte)(len >> 8));
+                        fs.WriteByte((byte)(len));
+                        foreach (DataInfo info in objList)
+                        {
+                            lastaddr += info.pos;
+                            len = lastaddr;
+                            fs.WriteByte((byte)(len >> 16));
+                            fs.WriteByte((byte)(len >> 8));
+                            fs.WriteByte((byte)(len));
+                            lastaddr += info.lenght;
+                            len = info.lenght;
+                            fs.WriteByte((byte)(len >> 16));
+                            fs.WriteByte((byte)(len >> 8));
+                            fs.WriteByte((byte)(len));
+                        }
+                        lastaddr = 0;
+                        break;
+                }
                 foreach (DataInfo info in objList)
                 {
                     if (info.lenght == 0)
